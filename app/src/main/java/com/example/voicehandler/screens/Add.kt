@@ -1,5 +1,6 @@
 package com.example.voicehandler.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import com.example.voicehandler.navigation.NavRoute
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AddScreen(navController: NavHostController) {
     var title by remember { mutableStateOf("") }
