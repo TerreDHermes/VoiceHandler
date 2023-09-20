@@ -37,11 +37,8 @@ import com.example.voicehandler.ui.theme.VoiceHandlerTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController) {
-    val context = LocalContext.current
-    val mViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val notes = viewModel.reaAllNotes().observeAsState(listOf()).value
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -52,17 +49,11 @@ fun MainScreen(navController: NavHostController) {
             }
         }
     ) {
-//        Column() {
-//            NoteItem(title = "Note 1", subtitle = "Subtitle for note 1", navController = navController)
-//            NoteItem(title = "Note 2", subtitle = "Subtitle for note 2", navController = navController)
-//            NoteItem(title = "Note 3", subtitle = "Subtitle for note 3", navController = navController)
-//            NoteItem(title = "Note 4", subtitle = "Subtitle for note 4", navController = navController)
-//        }
-//        LazyColumn{
-//            items(notes){
-//                note-> NoteItem(note = note, navController = navController)
-//            }
-//        }
+        LazyColumn{
+            items(notes){
+                note-> NoteItem(note = note, navController = navController)
+            }
+        }
     }
 }
 
@@ -98,6 +89,9 @@ fun NoteItem(note: Note, navController: NavHostController){
 @Composable
 fun prevMainScreen(){
     VoiceHandlerTheme {
-        MainScreen(navController = rememberNavController())
+        val context = LocalContext.current
+        val mViewModel: MainViewModel =
+            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+        MainScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }

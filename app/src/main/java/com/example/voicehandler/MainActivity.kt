@@ -1,6 +1,7 @@
 package com.example.voicehandler
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +14,10 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.voicehandler.navigation.NotesNavHost
 import com.example.voicehandler.ui.theme.VoiceHandlerTheme
 
@@ -23,6 +26,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val context = LocalContext.current
+            val mViewModel: MainViewModel =
+                viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
             VoiceHandlerTheme {
                 Scaffold(
                     topBar = {
@@ -41,7 +47,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             color = MaterialTheme.colors.background
                         ) {
-                            NotesNavHost()
+                            NotesNavHost(mViewModel)
                         }
                     }
                 )
