@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029847244348",
+    "project_id": "voice-app-8f616",
+    "storage_bucket": "voice-app-8f616.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029847244348:android:cd859628d877ac3802ed39",
+        "android_client_info": {
+          "package_name": "com.example.voicehandler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd3t0Q8Xl2U9ubOPs7p1KkA_mEyz72PYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
