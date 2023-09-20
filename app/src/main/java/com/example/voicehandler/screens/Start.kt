@@ -23,6 +23,7 @@ import com.example.voicehandler.MainViewModel
 import com.example.voicehandler.MainViewModelFactory
 import com.example.voicehandler.navigation.NavRoute
 import com.example.voicehandler.ui.theme.VoiceHandlerTheme
+import com.example.voicehandler.utils.Constants
 import com.example.voicehandler.utils.TYPE_FIREBASE
 import com.example.voicehandler.utils.TYPE_ROOM
 
@@ -41,7 +42,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
            horizontalAlignment = Alignment.CenterHorizontally,
            verticalArrangement = Arrangement.Center
        ) {
-            Text(text = "What we will use?")
+            Text(text = Constants.Keys.WHAT_WE_WILL_USE)
            Button(
                onClick = {
                          mViewModel.initDatabase(TYPE_ROOM){
@@ -53,7 +54,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                    .width(200.dp)
                    .padding(vertical = 8.dp)
            ) {
-               Text(text = "Room database")
+               Text(text = Constants.Keys.ROOM_DATABASE)
            }
            Button(
                onClick = {
@@ -66,7 +67,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                    .width(200.dp)
                    .padding(vertical = 8.dp)
            ) {
-               Text(text = "Firebase database")
+               Text(text = Constants.Keys.FIREBASE_DATABASE)
            }
        }
     }
