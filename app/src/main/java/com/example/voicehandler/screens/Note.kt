@@ -43,6 +43,10 @@ import com.example.voicehandler.navigation.NavRoute
 import com.example.voicehandler.ui.theme.VoiceHandlerTheme
 import com.example.voicehandler.utils.Constants
 import kotlinx.coroutines.launch
+import android.widget.Toast
+import android.content.Context
+import android.view.Gravity
+import kotlinx.coroutines.currentCoroutineContext
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -55,6 +59,11 @@ fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteI
     val coroutineScope = rememberCoroutineScope()
     var title by remember { mutableStateOf(Constants.Keys.EMPTY) }
     var subtitle by remember { mutableStateOf(Constants.Keys.EMPTY) }
+
+    val message = "Обновление прошло успешно!" // Замените это сообщение на то, которое вам нужно показать
+    val duration = Toast.LENGTH_LONG // Вы можете изменить длительность уведомления
+    val toast = Toast.makeText(LocalContext.current, message, duration)
+    toast.setGravity(Gravity.TOP, 0, 0)
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
@@ -88,6 +97,7 @@ fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteI
                     Button(
                         modifier = Modifier.padding(16.dp),
                         onClick = {
+                            toast.show()
                             viewModel.updateNote(note =
                             Note(id = note.id, title = title, subtitle = subtitle)){
                                 navController.navigate(NavRoute.Main.route)

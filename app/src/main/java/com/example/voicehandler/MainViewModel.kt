@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.voicehandler.database.firebase.AppFirebaseRepository
 import com.example.voicehandler.database.room.AppRoomDatabase
 import com.example.voicehandler.database.room.repository.RoomRepository
 import com.example.voicehandler.model.Note
 import com.example.voicehandler.utils.REPOSITORY
 import com.example.voicehandler.utils.TYPE_FIREBASE
 import com.example.voicehandler.utils.TYPE_ROOM
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,6 +32,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val dao = AppRoomDatabase.genInstance(context = context).getRoomDao()
                 REPOSITORY = RoomRepository(dao)
                 onSuccess()
+            }
+            TYPE_FIREBASE -> {
+                REPOSITORY = AppFirebaseRepository()
+                REPOSITORY.connectToDatabase(
+                    {onSuccess()},
+                    {Log.d("checkData", "Error: ${it}")}
+                )
             }
         }
     }
