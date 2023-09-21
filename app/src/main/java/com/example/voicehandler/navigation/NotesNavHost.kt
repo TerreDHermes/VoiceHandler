@@ -1,9 +1,9 @@
 package com.example.voicehandler.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.voicehandler.MainViewModel
 
 import com.example.voicehandler.screens.AddScreen
@@ -25,8 +25,7 @@ sealed class NavRoute(val route:String){
 
 
 @Composable
-fun NotesNavHost(mViewModel: MainViewModel) {
-    val navController = rememberNavController()
+fun NotesNavHost(mViewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavRoute.Start.route){
         composable(NavRoute.Start.route){ StartScreen(navController = navController, viewModel = mViewModel)}
         composable(NavRoute.Main.route){ MainScreen(navController = navController, viewModel = mViewModel)}

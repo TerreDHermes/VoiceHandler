@@ -3,6 +3,7 @@ import android.app.Application
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,8 @@ import com.example.voicehandler.database.firebase.AppFirebaseRepository
 import com.example.voicehandler.database.room.AppRoomDatabase
 import com.example.voicehandler.database.room.repository.RoomRepository
 import com.example.voicehandler.model.Note
+import com.example.voicehandler.utils.Constants
+import com.example.voicehandler.utils.DB_TYPE
 import com.example.voicehandler.utils.REPOSITORY
 import com.example.voicehandler.utils.TYPE_FIREBASE
 import com.example.voicehandler.utils.TYPE_ROOM
@@ -74,6 +77,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun reaAllNotes() = REPOSITORY.readAll
+
+    fun signOut(onSuccess: () -> Unit){
+        when(DB_TYPE.value){
+            TYPE_FIREBASE,
+                TYPE_ROOM ->{
+                    REPOSITORY.signOut()
+                DB_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+                }
+            else -> {Log.d("checkData", "signOut: Else: ${DB_TYPE.value}")}
+        }
+    }
+
 }
 
 class MainViewModelFactory(private val application: Application):ViewModelProvider.Factory{

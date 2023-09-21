@@ -1,5 +1,6 @@
 package com.example.voicehandler.utils
 
+import androidx.compose.runtime.mutableStateOf
 import com.example.voicehandler.database.DatabaseRepository
 
 const val TYPE_DATABASE = "type_database"
@@ -10,7 +11,7 @@ const val FIREBASE_ID = "firebaseId"
 lateinit var REPOSITORY: DatabaseRepository
 lateinit var LOGIN:String
 lateinit var PASSWORD:String
-lateinit var DB_TYPE: String
+var DB_TYPE =  mutableStateOf("")
 
 object Constants{
     object Keys{
