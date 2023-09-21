@@ -34,6 +34,9 @@ import com.example.voicehandler.model.Note
 import com.example.voicehandler.navigation.NavRoute
 import com.example.voicehandler.ui.theme.VoiceHandlerTheme
 import com.example.voicehandler.utils.Constants
+import com.example.voicehandler.utils.DB_TYPE
+import com.example.voicehandler.utils.TYPE_FIREBASE
+import com.example.voicehandler.utils.TYPE_ROOM
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -60,12 +63,17 @@ fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
 
 @Composable
 fun NoteItem(note: Note, navController: NavHostController){
+    val noteId = when(DB_TYPE){
+        TYPE_FIREBASE -> note.firebaseId
+        TYPE_ROOM -> note.id
+        else -> Constants.Keys.EMPTY
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 24.dp)
             .clickable {
-                navController.navigate(NavRoute.Note.route + "/${note.id}")
+                navController.navigate(NavRoute.Note.route + "/${noteId}")
             },
         elevation = 6.dp
     ) {
