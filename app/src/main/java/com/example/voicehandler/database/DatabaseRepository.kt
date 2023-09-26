@@ -16,5 +16,6 @@ interface DatabaseRepository {
     fun signOut(){}
 
     fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
+    fun registrationInDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
 
 }

@@ -24,7 +24,7 @@ object Constants{
         const val TITLE = "title"
         const val SUBTITLE = "subtitle"
         const val WHAT_WE_WILL_USE = "What we will use?"
-        const val ROOM_DATABASE = "Room database"
+        const val ROOM_DATABASE = "Local database"
         const val FIREBASE_DATABASE = "Firebase database"
         const val ID = "Id"
         const val NONE = "none"
@@ -38,6 +38,9 @@ object Constants{
         const val LOG_IN = "Log In"
         const val LOGIN_TEXT = "Login"
         const val PASSWORD_TEXT = "Password"
+        const val REGISTRATION = "Registration"
+        const val WHAT_DO_YOU_WANT = "What do you want to do?"
+        const val BACK = "Back"
 
     }
 
@@ -46,5 +49,8 @@ object Constants{
         const val MAIN_SCREEN  = "main_screen"
         const val ADD_SCREEN = "add_screen"
         const val NOTE_SCREEN = "note_screen"
+        const val LOGREG_SCREEN = "logreg_screen"
+        const val REGISTRATION_SCREEN = "registration_screen"
+        const val LOGIN_SCREEN = "login_screen"
     }
 }

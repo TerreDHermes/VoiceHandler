@@ -3,6 +3,7 @@ import android.app.Application
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.ui.unit.Constraints
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -27,7 +28,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val context = application
 
-
+    fun RegistrationDatabase(type: String, onSuccess: ()->Unit){
+        Log.d("CheckData", "MainViewModel RegistrationDatabase with type: $type")
+        when(type){
+            TYPE_FIREBASE -> {
+                REPOSITORY = AppFirebaseRepository()
+                REPOSITORY.registrationInDatabase(
+                    {onSuccess()},
+                    {
+                        Log.d("checkData", "Error: ${it}")
+                        val errorMessage = "Error: $it"
+                        viewModelScope.launch(Dispatchers.Main) {
+                            val context = getApplication<Application>().applicationContext
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                )
+            }
+        }
+    }
     fun initDatabase(type: String, onSuccess: ()->Unit){
         Log.d("CheckData", "MainViewModel initDatabase with type: $type")
         when(type){
@@ -40,7 +59,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 REPOSITORY = AppFirebaseRepository()
                 REPOSITORY.connectToDatabase(
                     {onSuccess()},
-                    {Log.d("checkData", "Error: ${it}")}
+                    {
+                        Log.d("checkData", "Error: ${it}")
+                        val errorMessage = "Error: $it"
+                        viewModelScope.launch(Dispatchers.Main) {
+                            val context = getApplication<Application>().applicationContext
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                        }
+                    }
                 )
             }
         }

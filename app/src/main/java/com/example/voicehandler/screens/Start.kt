@@ -136,9 +136,11 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                 }
                 Button(
                     onClick = {
-                        coroutineScope.launch {
-                            bottomSheetState.show()
-                        }
+                              navController.navigate(route = NavRoute.LogReg.route)
+
+                        //coroutineScope.launch {
+                          //  bottomSheetState.show()
+                        //}
                     },
                     modifier = Modifier
                         .width(200.dp)
