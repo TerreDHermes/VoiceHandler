@@ -23,31 +23,37 @@ class AppFirebaseRepository: DatabaseRepository {
     private val mAuth = FirebaseAuth.getInstance()
 
     private val database = Firebase.database.reference
-        .child(mAuth.currentUser?.uid.toString())
+        //.child(mAuth.currentUser?.uid.toString())
 
     override val readAll: LiveData<List<Note>> = AllNotesLiveData()
     //private var allNotesLiveData: AllNotesLiveData? = null
     override suspend fun create(note: Note, onSuccess: () -> Unit) {
-        val noteId = database.push().key.toString()
-        val mapNotes = hashMapOf<String, Any>()
-        mapNotes[FIREBASE_ID] = noteId
-        mapNotes[Constants.Keys.TITLE] = note.title
-        mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            val noteId = database.push().key.toString()
+            val mapNotes = hashMapOf<String, Any>()
+            mapNotes[FIREBASE_ID] = noteId
+            mapNotes[Constants.Keys.TITLE] = note.title
+            mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
 
-        database.child(noteId)
-            .updateChildren(mapNotes)
-            .addOnSuccessListener {
-                //val mAuth = FirebaseAuth.getInstance()
-                val currentUser = mAuth.currentUser
-                if (currentUser != null) {
-                    Log.d("checkData", "create note UID: ${currentUser.uid}")
-                    Log.d("checkData", "create note Email: ${currentUser.email}")
-                } else {
-                    Log.d("checkData", "create note - Current user is null")
+            database.child(userUid).child(noteId)
+                .updateChildren(mapNotes)
+                .addOnSuccessListener {
+                    //val mAuth = FirebaseAuth.getInstance()
+                    val currentUser = mAuth.currentUser
+                    if (currentUser != null) {
+                        Log.d("checkData", "create note UID: ${currentUser.uid}")
+                        Log.d("checkData", "create note Email: ${currentUser.email}")
+                    } else {
+                        Log.d("checkData", "create note - Current user is null")
+                    }
+                    onSuccess()
                 }
-                onSuccess()
-            }
-            .addOnFailureListener { Log.d("CheckData", "Failed to add new note") }
+                .addOnFailureListener { Log.d("CheckData", "Failed to add new note") }
+        } else{
+            Log.d("CheckData", "Current user is null")
+        }
     }
 
     override suspend fun update(note: Note, onSuccess: () -> Unit) {
