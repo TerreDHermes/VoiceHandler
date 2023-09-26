@@ -57,27 +57,39 @@ class AppFirebaseRepository: DatabaseRepository {
     }
 
     override suspend fun update(note: Note, onSuccess: () -> Unit) {
-        val noteId = note.firebaseId
-        val mapNotes = hashMapOf<String, Any>()
-        mapNotes[FIREBASE_ID] = noteId
-        mapNotes[Constants.Keys.TITLE] = note.title
-        mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            val noteId = note.firebaseId
+            val mapNotes = hashMapOf<String, Any>()
+            mapNotes[FIREBASE_ID] = noteId
+            mapNotes[Constants.Keys.TITLE] = note.title
+            mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
 
-        database.child(noteId)
-            .updateChildren(mapNotes)
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener { Log.d("CheckData", "Failed to update note") }
+            database.child(userUid).child(noteId)
+                .updateChildren(mapNotes)
+                .addOnSuccessListener {
+                    onSuccess()
+                }
+                .addOnFailureListener { Log.d("CheckData", "Failed to update note") }
+        } else {
+            Log.d("CheckData", "Current user is null")
+        }
 
     }
 
     override suspend fun delete(note: Note, onSuccess: () -> Unit) {
-        database.child(note.firebaseId).removeValue()
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener { Log.d("CheckData", "Failed to delete note") }
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            database.child(userUid).child(note.firebaseId).removeValue()
+                .addOnSuccessListener {
+                    onSuccess()
+                }
+                .addOnFailureListener { Log.d("CheckData", "Failed to delete note") }
+        } else {
+            Log.d("CheckData", "Current user is null")
+        }
     }
 
     override fun signOut() {

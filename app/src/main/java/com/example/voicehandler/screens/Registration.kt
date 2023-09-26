@@ -65,7 +65,7 @@ fun RegistrationScreen(navController: NavHostController, viewModel: MainViewMode
                 .padding(all = 32.dp)
         ) {
             Text(
-                text = Constants.Keys.LOG_IN,
+                text = Constants.Keys.REGISTRATION,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
