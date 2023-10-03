@@ -54,8 +54,12 @@ fun LogInScreen(navController: NavHostController, viewModel: MainViewModel) {
 
     //val user = AppFirebaseRepository.getCurrentUser()
     val message = "Вы успешно вошли в аккаунт!" // Замените это сообщение на то, которое вам нужно показать
+    val message3 = "Проверьте правильность почты!"
+    val message4 = "Неверный пароль!"
     val duration = Toast.LENGTH_LONG // Вы можете изменить длительность уведомления
     val toast = Toast.makeText(LocalContext.current, message, duration)
+    val toast3 = Toast.makeText(LocalContext.current, message3, duration)
+    val toast4 = Toast.makeText(LocalContext.current, message4, duration)
     toast.setGravity(Gravity.TOP, 0, 0)
 
     Scaffold(
@@ -87,28 +91,33 @@ fun LogInScreen(navController: NavHostController, viewModel: MainViewModel) {
             Button(
                 modifier = Modifier.padding(16.dp),
                 onClick = {
-                    LOGIN = login
-                    PASSWORD = password
-                    viewModel.initDatabase(TYPE_FIREBASE) {
-                        val mAuth = FirebaseAuth.getInstance()
-                        val currentUser = mAuth.currentUser
-                        if (currentUser != null) {
-                            Log.d("checkData", "UID: ${currentUser.uid}")
-                            Log.d("checkData", "Email: ${currentUser.email}")
-                        } else {
-                            Log.d("checkData", "Current user is null")
-                        }
-
-                        toast.show()
-                        DB_TYPE.value = TYPE_FIREBASE
-                        navController.navigate(NavRoute.Main.route){
-                            popUpTo(NavRoute.Main.route) {
-                                inclusive = true
-                            }
-                        }
-                        }
-
-
+                    if (!isEmailValid(login)) {
+                        toast3.show()
+                    } else if (!isPasswordValid(password)) {
+                        toast4.show()
+                    } else {
+                        LOGIN = login
+                        PASSWORD = password
+                        navController.navigate(NavRoute.CheckEmailLogin.route)
+                    }
+//                    viewModel.initDatabase(TYPE_FIREBASE) {
+//                        val mAuth = FirebaseAuth.getInstance()
+//                        val currentUser = mAuth.currentUser
+//                        if (currentUser != null) {
+//                            Log.d("checkData", "UID: ${currentUser.uid}")
+//                            Log.d("checkData", "Email: ${currentUser.email}")
+//                        } else {
+//                            Log.d("checkData", "Current user is null")
+//                        }
+//
+//                        toast.show()
+//                        DB_TYPE.value = TYPE_FIREBASE
+//                        navController.navigate(NavRoute.Main.route){
+//                            popUpTo(NavRoute.Main.route) {
+//                                inclusive = true
+//                            }
+//                        }
+//                        }
                 },
                 enabled = login.isNotEmpty() && password.isNotEmpty()
             ) {

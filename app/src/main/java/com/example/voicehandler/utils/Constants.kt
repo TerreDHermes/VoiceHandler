@@ -67,5 +67,6 @@ object Constants{
         const val REGISTRATION_SCREEN = "registration_screen"
         const val LOGIN_SCREEN = "login_screen"
         const val CHECK_EMAIL_SCREEN = "check_email_screen"
+        const val CHECK_EMAIL_LOGIN_SCREEN = "check_email_login_screen"
     }
 }
