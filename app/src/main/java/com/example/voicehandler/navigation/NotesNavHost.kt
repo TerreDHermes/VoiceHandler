@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.example.voicehandler.MainViewModel
 
 import com.example.voicehandler.screens.AddScreen
+import com.example.voicehandler.screens.CheckEmailScreen
 import com.example.voicehandler.screens.LogInScreen
 import com.example.voicehandler.screens.LogRegScreen
 
@@ -27,11 +28,13 @@ sealed class NavRoute(val route:String){
     object LogReg: NavRoute(Constants.Screens.LOGREG_SCREEN)
     object Registration: NavRoute(Constants.Screens.REGISTRATION_SCREEN)
     object LogIn: NavRoute(Constants.Screens.LOGIN_SCREEN)
+    object CheckEmail: NavRoute(Constants.Screens.CHECK_EMAIL_SCREEN)
 }
 
 @Composable
 fun NotesNavHost(mViewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavRoute.Start.route){
+        composable(NavRoute.CheckEmail.route){ CheckEmailScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.LogIn.route){ LogInScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.Registration.route){ RegistrationScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.LogReg.route){ LogRegScreen(navController = navController, viewModel = mViewModel)}

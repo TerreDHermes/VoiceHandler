@@ -18,4 +18,6 @@ interface DatabaseRepository {
     fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
     fun registrationInDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
 
+    //fun registrationInDatabaseWithPhone(onSuccess: () -> Unit, onFail: (String) -> Unit){}
+
 }

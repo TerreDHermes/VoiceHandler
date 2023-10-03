@@ -14,8 +14,16 @@ import android.view.Gravity
 import android.widget.Toast
 import com.example.voicehandler.utils.Constants
 import com.example.voicehandler.utils.FIREBASE_ID
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.PhoneMultiFactorGenerator
 import com.google.firebase.database.ktx.database
+import java.util.concurrent.TimeUnit
 
 
 class AppFirebaseRepository: DatabaseRepository {
@@ -101,6 +109,7 @@ class AppFirebaseRepository: DatabaseRepository {
             .addOnSuccessListener {
                 //val mAuth = FirebaseAuth.getInstance()
                 val currentUser = mAuth.currentUser
+
                 if (currentUser != null) {
                     Log.d("checkData", "connectToDatabase UID: ${currentUser.uid}")
                     Log.d("checkData", "connectToDatabase Email: ${currentUser.email}")
@@ -123,6 +132,90 @@ class AppFirebaseRepository: DatabaseRepository {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFail(it.message.toString()) }
             }
+
+
+
+//    val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+//            // This callback will be invoked in two situations:
+//            // 1) Instant verification. In some cases, the phone number can be
+//            //    instantly verified without needing to send or enter a verification
+//            //    code. You can disable this feature by calling
+//            //    PhoneAuthOptions.builder#requireSmsValidation(true) when building
+//            //    the options to pass to PhoneAuthProvider#verifyPhoneNumber().
+//            // 2) Auto-retrieval. On some devices, Google Play services can
+//            //    automatically detect the incoming verification SMS and perform
+//            //    verification without user action.
+//            //this@AppFirebaseRepository.credential = credential
+//        }
+//
+//        override fun onVerificationFailed(e: FirebaseException) {
+//            // This callback is invoked in response to invalid requests for
+//            // verification, like an incorrect phone number.
+//            if (e is FirebaseAuthInvalidCredentialsException) {
+//                Log.d("checkData", "Invalid request")
+//                // Invalid request
+//                // ...
+//            } else if (e is FirebaseTooManyRequestsException) {
+//                Log.d("checkData", "The SMS quota for the project has been exceeded")
+//                // The SMS quota for the project has been exceeded
+//                // ...
+//            }
+//            Log.d("checkData", "Show a message and update the UI")
+//            // Show a message and update the UI
+//            // ...
+//        }
+//
+//        override fun onCodeSent(
+//            verificationId: String, forceResendingToken: PhoneAuthProvider.ForceResendingToken
+//        ) {
+//            // The SMS verification code has been sent to the provided phone number.
+//            // We now need to ask the user to enter the code and then construct a
+//            // credential by combining the code with a verification ID.
+//            // Save the verification ID and resending token for later use.
+//            Log.d("checkData", "start - VERIFICATION_ID: ")
+//            VERIFICATION_ID = verificationId
+//            Log.d("checkData", "end - VERIFICATION_ID: ")
+//            FORCE_RESENDING_TOKEN = forceResendingToken
+//            //this@MainActivity.verificationId = verificationId
+//            //this@MainActivity.forceResendingToken = forceResendingToken
+//            // ...
+//        }
+//    }
+
+
+//    override fun registrationInDatabaseWithPhone(onSuccess: () -> Unit, onFail: (String) -> Unit) {
+//        val currentUser = mAuth.currentUser
+//        if (currentUser != null) {
+//            Log.d("checkData", "connectToDatabase with Phone... email: ${currentUser.email}")
+//            currentUser.multiFactor.session
+//                .addOnCompleteListener{ task ->
+//                    if (task.isSuccessful){
+//                        val multiFactorSession = task.result
+//                        val phoneAuthOptions = PhoneAuthOptions.newBuilder()
+//                            .setPhoneNumber(PHONE_NUMBER)
+//                            .setTimeout(30L, TimeUnit.SECONDS)
+//                            .setMultiFactorSession(multiFactorSession)
+//                            .setCallbacks(callbacks)
+//                            .build()
+//                        PhoneAuthProvider.verifyPhoneNumber(phoneAuthOptions)
+//                    }
+//                }
+//            Log.d("checkData", "VERIFICATION_ID end end: ")
+//            val credential = PhoneAuthProvider.getCredential(VERIFICATION_ID, VERIFICATION_CODE)
+//            val multiFactorAssertion = PhoneMultiFactorGenerator.getAssertion(credential)
+//
+//            FirebaseAuth.getInstance()
+//                .currentUser
+//                ?.multiFactor
+//                ?.enroll(multiFactorAssertion, "My personal phone number")
+//                ?.addOnCompleteListener { onSuccess() }
+//                ?.addOnFailureListener { onFail(it.message.toString()) }
+//
+//        } else {
+//            onFail("Current user is null")
+//        }
+//    }
 
 //    override val readAll: LiveData<List<Note>>
 //        get() {

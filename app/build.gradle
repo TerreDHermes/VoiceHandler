@@ -44,13 +44,17 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += '/META-INF/{NOTICE.md,LICENSE.md}' // <-- This line
         }
     }
+
+
 }
 
 dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     def room_version = "2.5.0"
     def compose_version = "1.6.1"
 
@@ -80,6 +84,13 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
+
+    def java_mail_version = "1.6.7"
+
+    implementation "com.sun.mail:android-mail:$java_mail_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.20.0"
+
+    //implementation 'com.sun.mail:android-mail:1.6.2'
     //implementation 'com.google.firebase:firebase-analyticks'
     //implementation 'com.google.firebase:firebase-messaging'
 

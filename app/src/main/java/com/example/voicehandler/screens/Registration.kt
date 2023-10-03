@@ -2,6 +2,7 @@ package com.example.voicehandler.screens
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Patterns
 import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -39,11 +40,27 @@ import com.example.voicehandler.utils.PASSWORD
 import com.example.voicehandler.utils.TYPE_FIREBASE
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 
+
+fun isEmailValid(email: String): Boolean {
+    val pattern = Patterns.EMAIL_ADDRESS
+    return pattern.matcher(email).matches()
+}
+fun isPasswordValid(password: String): Boolean {
+    // Регулярное выражение для проверки пароля на следующие условия:
+    // - Должен содержать хотя бы 6 символов
+    // - Должен содержать хотя бы одну букву (строчную или заглавную)
+    val passwordPattern = "^(?=.*[a-zA-Z]).{6,}$".toRegex()
+    return passwordPattern.matches(password)
+}
+
+
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RegistrationScreen(navController: NavHostController, viewModel: MainViewModel) {
     var login by remember { mutableStateOf(Constants.Keys.EMPTY) }
     var password by remember { mutableStateOf(Constants.Keys.EMPTY) }
+    //var phoneNumber by remember { mutableStateOf(Constants.Keys.EMPTY) }
 
     val context = LocalContext.current
     val mViewModel: MainViewModel =
@@ -51,9 +68,13 @@ fun RegistrationScreen(navController: NavHostController, viewModel: MainViewMode
 
     val message = "Аккаунт успешно создан!" // Замените это сообщение на то, которое вам нужно показать
     val message2 = "Аккаунт не был создан (Проверьте правильность почты и пароля)!"
+    val message3 = "Проверьте правильность почты!"
+    val message4 = "Слабый пароль (6 символов и хотя бы 1 буква)!"
     val duration = Toast.LENGTH_LONG // Вы можете изменить длительность уведомления
     val toast = Toast.makeText(LocalContext.current, message, duration)
     val toast2 = Toast.makeText(LocalContext.current, message2, duration)
+    val toast3 = Toast.makeText(LocalContext.current, message3, duration)
+    val toast4 = Toast.makeText(LocalContext.current, message4, duration)
     toast.setGravity(Gravity.TOP, 0, 0)
 
     Scaffold(
@@ -85,25 +106,23 @@ fun RegistrationScreen(navController: NavHostController, viewModel: MainViewMode
             Button(
                 modifier = Modifier.padding(16.dp),
                 onClick = {
+                    if (!isEmailValid(login)) {
+                        toast3.show()
+                    } else if (!isPasswordValid(password)) {
+                        toast4.show()
+                    } else {
                     LOGIN = login
                     PASSWORD = password
-                    try {
-                        viewModel.RegistrationDatabase(TYPE_FIREBASE) {
-                            DB_TYPE.value = TYPE_FIREBASE
-                            mViewModel.signOut {
-                                toast.show()
-                                navController.navigate(NavRoute.LogReg.route)
-                                {
-                                    popUpTo(NavRoute.LogReg.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
-                        }
-                    } catch (e: FirebaseAuthInvalidCredentialsException){
-                        toast2.show()
+                    navController.navigate(NavRoute.CheckEmail.route)
+//                    try {
+//                        viewModel.RegistrationDatabase(TYPE_FIREBASE) {
+//                            DB_TYPE.value = TYPE_FIREBASE
+//                            navController.navigate(NavRoute.CheckEmail.route)
+//                        }
+//                    } catch (e: FirebaseAuthInvalidCredentialsException){
+//                        toast2.show()
+//                    }
                     }
-
                 },
                 enabled = login.isNotEmpty() && password.isNotEmpty()
             ) {

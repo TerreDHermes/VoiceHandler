@@ -2,6 +2,7 @@ package com.example.voicehandler.utils
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.voicehandler.database.DatabaseRepository
+import com.google.firebase.auth.PhoneAuthProvider
 
 const val TYPE_DATABASE = "type_database"
 const val TYPE_ROOM = "type_room"
@@ -11,6 +12,15 @@ const val FIREBASE_ID = "firebaseId"
 lateinit var REPOSITORY: DatabaseRepository
 lateinit var LOGIN:String
 lateinit var PASSWORD:String
+lateinit var VERIFICATION_CODE:String
+lateinit var CHECK:String
+//lateinit var PHONE_NUMBER:String
+//lateinit var VERIFICATION_ID:String
+//lateinit var VERIFICATION_CODE:String
+//lateinit var FORCE_RESENDING_TOKEN: PhoneAuthProvider.ForceResendingToken
+
+
+
 var DB_TYPE =  mutableStateOf("")
 
 object Constants{
@@ -36,11 +46,15 @@ object Constants{
         const val UPDATE_NOTE  = "Update note"
         const val SIGN_IN = "Sign In"
         const val LOG_IN = "Log In"
-        const val LOGIN_TEXT = "Login"
+        const val LOGIN_TEXT = "Login (email)"
         const val PASSWORD_TEXT = "Password"
         const val REGISTRATION = "Registration"
         const val WHAT_DO_YOU_WANT = "What do you want to do?"
         const val BACK = "Back"
+        const val PHONE_NUMBER = "Phone number"
+        const val CHECK_VERIFICATION_CODE = "Check verification code"
+        const val VERIFICATION_CODE = "Verification code"
+        const val SEND = "Send"
 
     }
 
@@ -52,5 +66,6 @@ object Constants{
         const val LOGREG_SCREEN = "logreg_screen"
         const val REGISTRATION_SCREEN = "registration_screen"
         const val LOGIN_SCREEN = "login_screen"
+        const val CHECK_EMAIL_SCREEN = "check_email_screen"
     }
 }

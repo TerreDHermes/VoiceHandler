@@ -34,7 +34,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             TYPE_FIREBASE -> {
                 REPOSITORY = AppFirebaseRepository()
                 REPOSITORY.registrationInDatabase(
-                    {onSuccess()},
+                    {
+                        //REPOSITORY.registrationInDatabaseWithPhone({onSuccess},{Log.d("checkData", "Error: ${it}")})
+                        onSuccess()
+                    },
                     {
                         Log.d("checkData", "Error: ${it}")
                         val errorMessage = "Error: $it"
