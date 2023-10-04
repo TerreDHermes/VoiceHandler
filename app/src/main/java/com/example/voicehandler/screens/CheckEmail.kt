@@ -130,7 +130,7 @@ fun CheckEmailScreen(navController: NavHostController, viewModel: MainViewModel)
     }
 
     val toEmail = email // Замените на адрес получателя
-    val subject = "Verification code"
+    val subject = "Verification code (REGISTRATION)"
     val random = java.util.Random()
     val sixDigitNumber = 100000 + random.nextInt(900000)
     val messageText = sixDigitNumber.toString()

@@ -114,14 +114,6 @@ fun RegistrationScreen(navController: NavHostController, viewModel: MainViewMode
                     LOGIN = login
                     PASSWORD = password
                     navController.navigate(NavRoute.CheckEmail.route)
-//                    try {
-//                        viewModel.RegistrationDatabase(TYPE_FIREBASE) {
-//                            DB_TYPE.value = TYPE_FIREBASE
-//                            navController.navigate(NavRoute.CheckEmail.route)
-//                        }
-//                    } catch (e: FirebaseAuthInvalidCredentialsException){
-//                        toast2.show()
-//                    }
                     }
                 },
                 enabled = login.isNotEmpty() && password.isNotEmpty()
