@@ -14,6 +14,8 @@ lateinit var LOGIN:String
 lateinit var PASSWORD:String
 lateinit var VERIFICATION_CODE:String
 lateinit var CHECK:String
+lateinit var AUDIO_FILE_PATH:String
+lateinit var AUDIO_FILE_NAME:String
 //lateinit var PHONE_NUMBER:String
 //lateinit var VERIFICATION_ID:String
 //lateinit var VERIFICATION_CODE:String
@@ -55,6 +57,8 @@ object Constants{
         const val CHECK_VERIFICATION_CODE = "Check verification code"
         const val VERIFICATION_CODE = "Verification code"
         const val SEND = "Send"
+        const val FILE_NAME = "Введите имя для записи"
+        const val SAVE = "Сохранить"
 
     }
 
@@ -68,5 +72,6 @@ object Constants{
         const val LOGIN_SCREEN = "login_screen"
         const val CHECK_EMAIL_SCREEN = "check_email_screen"
         const val CHECK_EMAIL_LOGIN_SCREEN = "check_email_login_screen"
+        const val RECORD_SCREEN = "record_screen"
     }
 }

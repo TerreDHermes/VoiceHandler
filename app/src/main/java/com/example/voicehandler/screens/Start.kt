@@ -148,6 +148,20 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                 ) {
                     Text(text = Constants.Keys.FIREBASE_DATABASE)
                 }
+                Button(
+                    onClick = {
+                        navController.navigate(route = NavRoute.Record.route)
+
+                        //coroutineScope.launch {
+                        //  bottomSheetState.show()
+                        //}
+                    },
+                    modifier = Modifier
+                        .width(200.dp)
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = Constants.Screens.RECORD_SCREEN)
+                }
             }
         }
     }

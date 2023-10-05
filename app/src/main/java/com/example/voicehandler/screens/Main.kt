@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -54,11 +57,25 @@ fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
         }
     ) {
         LazyColumn{
+            item {
+                Button(
+                    onClick = {
+                        navController.navigate(NavRoute.Record.route)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text("Record voice")
+                }
+            }
             items(notes){
                 note-> NoteItem(note = note, navController = navController)
             }
         }
     }
+
+
 }
 
 @Composable

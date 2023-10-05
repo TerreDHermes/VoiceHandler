@@ -15,6 +15,7 @@ import com.example.voicehandler.screens.LogRegScreen
 import com.example.voicehandler.screens.MainScreen
 
 import com.example.voicehandler.screens.NoteScreen
+import com.example.voicehandler.screens.RecordScreen
 import com.example.voicehandler.screens.RegistrationScreen
 
 import com.example.voicehandler.screens.StartScreen
@@ -31,11 +32,13 @@ sealed class NavRoute(val route:String){
     object LogIn: NavRoute(Constants.Screens.LOGIN_SCREEN)
     object CheckEmail: NavRoute(Constants.Screens.CHECK_EMAIL_SCREEN)
     object CheckEmailLogin: NavRoute(Constants.Screens.CHECK_EMAIL_LOGIN_SCREEN)
+    object Record: NavRoute(Constants.Screens.RECORD_SCREEN)
 }
 
 @Composable
 fun NotesNavHost(mViewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavRoute.Start.route){
+        composable(NavRoute.Record.route){ RecordScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.CheckEmailLogin.route){ CheckEmailLoginScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.CheckEmail.route){ CheckEmailScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.LogIn.route){ LogInScreen(navController = navController, viewModel = mViewModel) }
