@@ -1,5 +1,6 @@
 package com.example.voicehandler.utils
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import com.example.voicehandler.database.DatabaseRepository
 import com.google.firebase.auth.PhoneAuthProvider
@@ -16,6 +17,7 @@ lateinit var VERIFICATION_CODE:String
 lateinit var CHECK:String
 lateinit var AUDIO_FILE_PATH:String
 lateinit var AUDIO_FILE_NAME:String
+lateinit var DESTINATION_URI: Uri
 //lateinit var PHONE_NUMBER:String
 //lateinit var VERIFICATION_ID:String
 //lateinit var VERIFICATION_CODE:String
