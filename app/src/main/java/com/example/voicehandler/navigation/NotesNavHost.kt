@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import com.example.voicehandler.MainViewModel
 
 import com.example.voicehandler.screens.AddScreen
+import com.example.voicehandler.screens.AudioFirebaseScreen
+import com.example.voicehandler.screens.AudioFirebaseTextScreen
 import com.example.voicehandler.screens.CheckEmailLoginScreen
 import com.example.voicehandler.screens.CheckEmailScreen
 import com.example.voicehandler.screens.LogInScreen
@@ -19,6 +21,7 @@ import com.example.voicehandler.screens.RecordScreen
 import com.example.voicehandler.screens.RegistrationScreen
 
 import com.example.voicehandler.screens.StartScreen
+import com.example.voicehandler.screens.StorageScreen
 import com.example.voicehandler.utils.Constants
 
 
@@ -33,11 +36,17 @@ sealed class NavRoute(val route:String){
     object CheckEmail: NavRoute(Constants.Screens.CHECK_EMAIL_SCREEN)
     object CheckEmailLogin: NavRoute(Constants.Screens.CHECK_EMAIL_LOGIN_SCREEN)
     object Record: NavRoute(Constants.Screens.RECORD_SCREEN)
+    object Storage: NavRoute(Constants.Screens.STORAGE_SCREEN)
+    object AudioFirebase: NavRoute(Constants.Screens.AUDIO_FIREBASE_SCREEN)
+    object AudioFirebaseText: NavRoute(Constants.Screens.AUDIO_FIREBASE_TEXT_SCREEN)
 }
 
 @Composable
 fun NotesNavHost(mViewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavRoute.Start.route){
+        composable(NavRoute.AudioFirebaseText.route){ AudioFirebaseTextScreen(navController = navController, viewModel = mViewModel) }
+        composable(NavRoute.AudioFirebase.route){ AudioFirebaseScreen(navController = navController, viewModel = mViewModel) }
+        composable(NavRoute.Storage.route){ StorageScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.Record.route){ RecordScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.CheckEmailLogin.route){ CheckEmailLoginScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.CheckEmail.route){ CheckEmailScreen(navController = navController, viewModel = mViewModel) }

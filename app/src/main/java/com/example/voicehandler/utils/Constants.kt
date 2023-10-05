@@ -73,5 +73,8 @@ object Constants{
         const val CHECK_EMAIL_SCREEN = "check_email_screen"
         const val CHECK_EMAIL_LOGIN_SCREEN = "check_email_login_screen"
         const val RECORD_SCREEN = "record_screen"
+        const val STORAGE_SCREEN = "storage_screen"
+        const val AUDIO_FIREBASE_SCREEN = "audio_firebase_screen"
+        const val AUDIO_FIREBASE_TEXT_SCREEN = "audio_firebase_text_screen"
     }
 }

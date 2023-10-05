@@ -318,13 +318,13 @@ fun RecordScreen(navController: NavHostController, viewModel: MainViewModel) {
             // Кнопка "Старые записи"
             Button(
                 onClick = {
-                    // Добавьте действие для кнопки "Старые записи" здесь
+                    navController.navigate(NavRoute.Storage.route)
                 },
                 modifier = Modifier
                     .weight(1f)
                     .padding(8.dp)
             ) {
-                Text("Старые записи",
+                Text("Все записи",
                     textAlign = TextAlign.Center)
             }
         }
