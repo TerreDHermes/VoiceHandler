@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -65,11 +66,9 @@ import javax.mail.internet.MimeMessage
 
 
 
-fun sendEmailInBackground(toEmail: String, subject: String, messageText: String) {
-    runBlocking {
-        launch(Dispatchers.IO) {
-            sendEmail2(toEmail, subject, messageText)
-        }
+fun sendEmailInBackground(toEmail: String, subject: String, messageText: String,viewModel: MainViewModel) {
+    viewModel.viewModelScope.launch(Dispatchers.IO) {
+        sendEmail2(toEmail, subject, messageText)
     }
 }
 fun sendEmail2(toEmail: String, subject: String, messageText: String) {
@@ -190,7 +189,7 @@ fun CheckEmailScreen(navController: NavHostController, viewModel: MainViewModel)
                             .fillMaxWidth(0.4f),
                         onClick = {
                             check = "No empty"
-                            sendEmailInBackground(toEmail, subject, messageText)
+                            sendEmailInBackground(toEmail, subject, messageText,viewModel)
                         },
                         enabled = check.isEmpty()
                     ) {
@@ -209,14 +208,14 @@ fun CheckEmailScreen(navController: NavHostController, viewModel: MainViewModel)
                         try {
                             viewModel.RegistrationDatabase(TYPE_FIREBASE) {
                                 DB_TYPE.value = TYPE_FIREBASE
-                            }
-                            val mAuth = FirebaseAuth.getInstance()
-                            toast.show()
-                            navController.navigate(NavRoute.LogReg.route)
-                            {
-                                mAuth.signOut()
-                                popUpTo(NavRoute.LogReg.route) {
-                                    inclusive = true
+                                val mAuth = FirebaseAuth.getInstance()
+                                toast.show()
+                                navController.navigate(NavRoute.LogReg.route)
+                                {
+                                    mAuth.signOut()
+                                    popUpTo(NavRoute.LogReg.route) {
+                                        inclusive = true
+                                    }
                                 }
                             }
                         } catch (e: FirebaseAuthInvalidCredentialsException){

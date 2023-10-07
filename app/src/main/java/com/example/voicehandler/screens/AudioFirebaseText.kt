@@ -47,12 +47,16 @@ import java.io.File
 import android.provider.Settings
 import android.view.Gravity
 import android.widget.Toast
+import com.example.voicehandler.utils.LOGIN
 
 
 @Composable
 fun AudioFirebaseTextScreen(navController: NavHostController, viewModel: MainViewModel) {
     val context = LocalContext.current
-
+    var email = LOGIN
+    if (email == null){
+        email = "Null"
+    }
 
     //var destinationUri23 by remember { mutableStateOf(Constants.Keys.EMPTY)
 
@@ -63,7 +67,7 @@ fun AudioFirebaseTextScreen(navController: NavHostController, viewModel: MainVie
 
     // Загрузка списка названий файлов из Firebase Storage
     LaunchedEffect(Unit) {
-        val storageReference = storage.reference.child("email/text")
+        val storageReference = storage.reference.child("$email/text")
         val listResult = storageReference.listAll().await()
         fileNames = listResult.items.map { it.name }
     }
@@ -89,13 +93,17 @@ fun FileList2(
 ) {
     val scrollState = rememberScrollState()
     val message = "Файл загружен в папку Dowloads!" // Замените это сообщение на то, которое вам нужно показать
-    val message2 = "Запись загружается!"
+    val message2 = "Файл загружается!"
     val message3 = "Неверный  VERIFICATION_CODE"
     val duration = Toast.LENGTH_LONG // Вы можете изменить длительность уведомления
     val toast = Toast.makeText(LocalContext.current, message, duration)
     val toast2 = Toast.makeText(LocalContext.current, message2, duration)
     val toast3 = Toast.makeText(LocalContext.current, message3, duration)
     toast.setGravity(Gravity.TOP, 0, 0)
+    var email = LOGIN
+    if (email == null){
+        email = "Null"
+    }
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
@@ -104,7 +112,7 @@ fun FileList2(
             // Кнопка с названием файла
             Button(
                 onClick = {
-                    val storageReference = Firebase.storage.reference.child("email/text/$fileName")
+                    val storageReference = Firebase.storage.reference.child("$email/text/$fileName")
                     val downloadUrl2 = storageReference.downloadUrl.toString()
                     Log.d("DownloadFile", "Начало загрузки файла: $downloadUrl2")
                     toast2.show()
@@ -132,7 +140,7 @@ fun FileList2(
 
 fun downloadFile(context: Context, fileName: String, fileUrl: String) {
     val request = DownloadManager.Request(Uri.parse(fileUrl))
-    request.setTitle("Загрузка файла $fileName")
+    request.setTitle("$fileName")
     request.setDescription("Загрузка файла с Firebase Storage")
 
     // Указываем путь для сохранения файла на устройстве

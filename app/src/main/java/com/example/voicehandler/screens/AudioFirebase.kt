@@ -36,11 +36,15 @@ import kotlinx.coroutines.tasks.await
 import android.provider.Settings
 import android.view.Gravity
 import android.widget.Toast
+import com.example.voicehandler.utils.LOGIN
 import java.io.File
 
 @Composable
 fun AudioFirebaseScreen(navController: NavHostController, viewModel: MainViewModel) {
-
+    var email = LOGIN
+    if (email == null){
+        email = "Null"
+    }
 
     val context = LocalContext.current
     val storage = Firebase.storage
@@ -50,7 +54,7 @@ fun AudioFirebaseScreen(navController: NavHostController, viewModel: MainViewMod
 
     // Загрузка списка названий файлов из Firebase Storage
     LaunchedEffect(Unit) {
-        val storageReference = storage.reference.child("email/audio")
+        val storageReference = storage.reference.child("$email/audio")
         val listResult = storageReference.listAll().await()
         fileNames = listResult.items.map { it.name }
     }
@@ -84,6 +88,10 @@ fun FileList(
     val toast3 = Toast.makeText(LocalContext.current, message3, duration)
     toast.setGravity(Gravity.TOP, 0, 0)
     val scrollState = rememberScrollState()
+    var email = LOGIN
+    if (email == null){
+        email = "Null"
+    }
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
@@ -92,7 +100,7 @@ fun FileList(
             // Кнопка с названием файла
             Button(
                 onClick = {
-                    val storageReference = Firebase.storage.reference.child("email/audio/$fileName")
+                    val storageReference = Firebase.storage.reference.child("$email/audio/$fileName")
                     val downloadUrl2 = storageReference.downloadUrl.toString()
                     Log.d("DownloadFile", "Начало загрузки файла: $downloadUrl2")
                     toast2.show()
@@ -132,7 +140,7 @@ fun FileList(
 }
 fun downloadFile2(context: Context, fileName: String, fileUrl: String) {
     val request = DownloadManager.Request(Uri.parse(fileUrl))
-    request.setTitle("Загрузка файла $fileName")
+    request.setTitle("$fileName")
     request.setDescription("Загрузка файла с Firebase Storage")
 
     // Указываем путь для сохранения файла на устройстве

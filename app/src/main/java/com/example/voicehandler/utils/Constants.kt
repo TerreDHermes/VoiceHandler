@@ -39,7 +39,7 @@ object Constants{
         const val SUBTITLE = "subtitle"
         const val WHAT_WE_WILL_USE = "What we will use?"
         const val ROOM_DATABASE = "Local database"
-        const val FIREBASE_DATABASE = "Firebase database"
+        const val FIREBASE_DATABASE = "Начать пользоваться VoiceHandler"
         const val ID = "Id"
         const val NONE = "none"
         const val UPDATE  = "UPDATE"

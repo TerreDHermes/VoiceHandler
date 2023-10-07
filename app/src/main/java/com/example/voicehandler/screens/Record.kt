@@ -53,6 +53,7 @@ import com.example.voicehandler.utils.AUDIO_FILE_NAME
 import com.example.voicehandler.utils.AUDIO_FILE_PATH
 import com.example.voicehandler.utils.CHECK
 import com.example.voicehandler.utils.Constants
+import com.example.voicehandler.utils.LOGIN
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -65,9 +66,13 @@ import java.util.Locale
 
 
 fun uploadRecordingToFirebaseStorage(context: Context, audioFilePath: String, fileName: String) {
+    var email = LOGIN
+    if (email == null){
+        email = "Null"
+    }
     val storage = Firebase.storage
     val storageRef = storage.reference
-    val audioRef = storageRef.child("email/audio/$fileName") // Укажите путь, куда вы хотите сохранить файл
+    val audioRef = storageRef.child("$email/audio/$fileName") // Укажите путь, куда вы хотите сохранить файл
 
     //val file = Uri.fromFile(File(audioFilePath))
     val fileUri = FileProvider.getUriForFile(context, "com.example.voicehandler.fileprovider", File(audioFilePath))
@@ -82,7 +87,7 @@ fun uploadRecordingToFirebaseStorage(context: Context, audioFilePath: String, fi
         // Успешно загружено
         // Вы можете добавить здесь дополнительную логику, например, сохранение ссылки на файл в базу данных
     }.addOnFailureListener {
-        Log.d("checkData", "Мы лошары, ничего не загрузили")
+        Log.d("checkData", "ничего не загрузили")
         // Ошибка при загрузке
     }
 }

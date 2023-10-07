@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.voicehandler.MainViewModel
 import com.example.voicehandler.navigation.NavRoute
@@ -52,11 +53,14 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 
-fun sendEmailInBackground2(toEmail: String, subject: String, messageText: String) {
-    runBlocking {
-        launch(Dispatchers.IO) {
-            sendEmail(toEmail, subject, messageText)
-        }
+fun sendEmailInBackground2(toEmail: String, subject: String, messageText: String,viewModel: MainViewModel) {
+//    runBlocking {
+//        launch(Dispatchers.IO) {
+//            sendEmail(toEmail, subject, messageText)
+//        }
+//    }
+    viewModel.viewModelScope.launch(Dispatchers.IO) {
+        sendEmail(toEmail, subject, messageText)
     }
 }
 fun sendEmail(toEmail: String, subject: String, messageText: String) {
@@ -164,7 +168,8 @@ fun CheckEmailLoginScreen(navController: NavHostController, viewModel: MainViewM
                         .fillMaxWidth(0.4f),
                     onClick = {
                         check = "No empty"
-                        sendEmailInBackground2(toEmail, subject, messageText)
+
+                        sendEmailInBackground2(toEmail, subject, messageText,viewModel)
                     },
                     enabled = check.isEmpty()
                 ) {
